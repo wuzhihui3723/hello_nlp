@@ -8,6 +8,7 @@ from collections import defaultdict
 
 import jieba
 
+
 #统计tf和idf值
 def buid_tf_idf_dict(corpus):
     tf_dict = defaultdict(dict)  #key:文档序号，value：dict，文档中每个词出现的频率
