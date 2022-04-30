@@ -36,9 +36,9 @@ def search_engine(query, tf_idf_dict, corpus,top = 3):
 if __name__ == '__main__':
     path = "data/sogou_news.json"
     tf_idf_dict,corpus = load_data(path)
-    # while True:
-    #     query = input("请输入您要搜索的内容:")
-    #     search_engine(query,tf_idf_dict,corpus)
-    print(tf_idf_dict)
-    print("-------")
-    print(corpus)
+    while True:
+        query = input("请输入您要搜索的内容:")
+        search_engine(query,tf_idf_dict,corpus)
+    # print(tf_idf_dict)
+    # print("-------")
+    # print(corpus)
