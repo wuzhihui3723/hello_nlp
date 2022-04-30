@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import jieba
 import numpy as np
-
+from torch.utils.data import DataLoader
 
 """
 基于pytorch的网络编写一个分词模型
@@ -72,9 +72,30 @@ class Dataset(object):
             for line in f:
                 sequence = sentence2sentence(line,self.vocab)
                 label = sentence2label(line)
+                sequence,label = self.padding(sequence,label)
+                sequence = torch.LongTensor(sequence)
+                label = torch.LongTensor(label)
+                self.data.append([sequence, label])
+                if len(self.data) > 10000:
+                    break
+
+    def padding(self, sequence, label):
+        sequence = sequence[:self.maxlength]
+        sequence += [0] * (self.maxlength - len(sequence))
+        label = label[:self.maxlength]
+        label += [-100] * (self.maxlength - len(label))
+        return sequence, label
+
+    def __len__(self):
+        return len(self.data)
+    def __getitem__(self, item):
+        return self.data[item]
+
 
 def build_dataset(corpus_path, vocab, max_length, batch_size):
     dataset = Dataset(corpus_path,vocab,max_length)
+    data_loader = DataLoader(dataset,shuffle=True,batch_size=batch_size)
+    return data_loader
 
 
 
@@ -90,6 +111,19 @@ def main():
     corpus_path = "data/corpus.txt"
     vocab = build_vocab(vocab_path)
     data_loader = build_dataset(corpus_path, vocab, max_length, batch_size)
+    model = TorchModel(char_dim,hidden_size,num_rnn_layer,vocab)
+    optim = torch.optim.Adam(model.parameters(),lr=learning_rate)
+    #训练开始
+    for epoch in range(epoch_num):
+        model.train()
+        watch_loss = []
+        for x,y in data_loader:
+            optim.zero_grad()
+            loss = model(x,y)
+            loss.backward()
+            optim.step()
+            watch_loss.append(loss.item())
+        print("=========\n第%d轮平均loss:%f" % (epoch + 1, np.mean(watch_loss)))
 
     return
 
