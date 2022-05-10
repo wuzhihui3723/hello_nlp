@@ -10,7 +10,7 @@ import torch
 torch.manual_seed(1)
 
 # ======================================= example 1 =======================================
-# torch.cat
+# torch.cat 不能改变张量的维度
 
 # flag = True
 flag = False
@@ -25,7 +25,7 @@ if flag:
 
 
 # ======================================= example 2 =======================================
-# torch.stack
+# torch.stack 能改变张量的维度
 
 # flag = True
 flag = False
@@ -39,7 +39,7 @@ if flag:
 
 
 # ======================================= example 3 =======================================
-# torch.chunk
+# torch.chunk 平均切分
 
 # flag = True
 flag = False
@@ -53,7 +53,7 @@ if flag:
 
 
 # ======================================= example 4 =======================================
-# torch.split
+# torch.split 切分功能更完善
 
 # flag = True
 flag = False
@@ -97,7 +97,7 @@ if flag:
 
 
 # ======================================= example 7 =======================================
-# torch.reshape
+# torch.reshape  前后两个张量共享内存
 
 # flag = True
 flag = False
@@ -114,10 +114,10 @@ if flag:
 
 
 # ======================================= example 8 =======================================
-# torch.transpose
+# torch.transpose   torch.t() 2维张量转置，对矩阵而言，等价于torch.transpose(input,0,1)
 
-# flag = True
-flag = False
+flag = True
+# flag = False
 
 if flag:
     # torch.transpose
@@ -127,7 +127,8 @@ if flag:
 
 
 # ======================================= example 9 =======================================
-# torch.squeeze
+# torch.squeeze 功能：压缩长度为1的维度（轴） dim：若为None，移除所有长度为1的轴，若指定维度，当且仅当该轴长度为1时，可以被移除
+# torch.unsqueeze
 
 # flag = True
 flag = False
