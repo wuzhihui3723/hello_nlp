@@ -6,11 +6,9 @@ X_b = np.c_[np.ones((100, 1)), X]
 
 t0, t1 = 5, 500
 
-
 # 定义一个函数来调整学习率
 def learning_rate_schedule(t):
     return t0/(t+t1)
-
 
 n_epochs = 100000
 m = 100
